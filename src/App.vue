@@ -35,12 +35,44 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import PrdResult from './models/PrdResult.js'
+
+import SearchComponent from './components/SearchComponent.vue'
 
 export default {
 	name: 'app',
 	components: {
-		HelloWorld
+		'search-bar' : SearchComponent,
+		PrdResult
+	},
+	data() {//전역변수 app안에서 사용하는 데이터
+		return {
+			title: "Vue를 배워봅시다.",
+			isPrdView: true,
+			searchBarQuery:'',
+			isSubmit:false
+		}
+	},
+	created() {
+	},
+	methods:{//이벤트,함수
+		onTogglePrd(e){
+			this.isPrdView =!this.isPrdView;
+		},
+		onSubmit(query) {
+			this.searchBarQuery = query;
+			this.searchResult();
+		},
+		onSearchReset(){
+			this.isSubmit = false;
+			this.items = [];
+		},
+		searchResult() {//일반함수 
+			PrdResult.list().then((result) => {
+				this.isSubmit = true;
+				this.items = result;
+			});
+		}
 	}
 }
 </script>
