@@ -1,5 +1,5 @@
 <template>
-	<form v-on:submit.prevent="onSubmit"> 
+	<form class="searchForm" v-on:submit.prevent="onSubmit"> 
 		<!-- 기본적인 기능을 막는 것 prevent -->
 	<input type="text" class="form-control" name="search" placeholder="검색어를 입력하세요." 
 	v-model="query"
@@ -21,7 +21,7 @@ export default {
 			// isSubmit: false,
 		}
 	},
-	methods : {
+	methods : { //$ vue가 가지고 있는 method임.
 		onSearchReset(e){
 			this.query='';
 			this.$emit('@reset');
@@ -38,14 +38,13 @@ export default {
 </script>
 
 <style lang="less">
-.search-wrap {
+.searchForm {
 	position: relative;
-}
-
-.search-wrap .btn-reset{
-	position: absolute;
-	top: 12px;
-	right: 12px;
-	cursor: pointer;
+	.btn-reset{
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		cursor: pointer;
+	}
 }
 </style>

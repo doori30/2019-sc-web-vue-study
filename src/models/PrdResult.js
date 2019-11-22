@@ -4,8 +4,8 @@ let items = [
 	{id:3, title:"와인", desc:"오래된 와인", src:"./img/wine.jpg"},
 ];
 
-export default {
-	list() {
+export default {//데이터를 가져오고 삭제하는 method
+	list(query) {
 		return new Promise((resolve, reject) => {
 			resolve(items);
 		});

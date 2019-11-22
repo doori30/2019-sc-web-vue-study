@@ -5,73 +5,45 @@
 			<h1>{{title}}</h1>
 			<!--  app이라는 객체의 변수가 됨. -->
 		</div>
-		<div class="search-wrap">
-		<search-bar v-bind:value="searchBarQuery" v-on:@submit="onSubmit"
+		<!-- <div class="search-wrap"> -->
+		<search-bar 
+		v-bind:value="searchBarQuery" 
+		v-on:@submit="onSubmit"
 		v-on:@reset="onSearchReset">
-<!--    자식에게서 일어나는 이벤트를 받는것. -->
 		</search-bar>
-		</div>
-		<div v-if="isSubmit">
-			<div class="mt-3">
-				<span class="f-125 text-primary">상품 리스트 보기</span>
-				<i class="fas fa-angle-down pointer" 
-				v-on:click="onTogglePrd"
-				v-bind:class="{'fa-angle-down':!isPrdView, 'fa-angle-up':isPrdView}"></i>
-				<!-- <i class="fas fa-angle-up pointer" v-on:click="onHidePrd"></i> -->
-				<!-- v-bind: > :class=""대체가능 /v-on:click="" @:click -->
-			</div>
-			<div class="prd-wrap my-3">
-				<ul class="prds d-flex justify-content-between" v-if="isPrdView">
-					<li class="prd mb-5" style="flex: 32% 0 0;" v-for="item in items">
-						<div><img v-bind:src="item.src" class="w-100"></div>
-						<div class="f-125 py-2">{{item.title}}</div>
-						<div class="f-0875 text-secondary py-2">{{item.desc}}</div>
-					</li>
-				</ul>
-			</div>
-		</div>
+
+		<prd-result 
+		v-bind:query="searchBarQuery"></prd-result>
+		<!-- </div> -->
+		
 		</div>
 </div>
 </template>
 
 <script>
-import PrdResult from './models/PrdResult.js'
-
 import SearchComponent from './components/SearchComponent.vue'
+import PrdComponenet from './components/PrdComponent.vue'
 
 export default {
 	name: 'app',
 	components: {
 		'search-bar' : SearchComponent,
-		PrdResult
+		'prd-result' : PrdComponenet
 	},
 	data() {//전역변수 app안에서 사용하는 데이터
 		return {
 			title: "Vue를 배워봅시다.",
-			isPrdView: true,
 			searchBarQuery:'',
-			isSubmit:false
 		}
 	},
 	created() {
 	},
-	methods:{//이벤트,함수
-		onTogglePrd(e){
-			this.isPrdView =!this.isPrdView;
+	methods:{//on이 붙으면 이벤트를 진행 /이벤트,함수
+		onSearchReset(){
+			this.searchBarQuery = '';
 		},
 		onSubmit(query) {
 			this.searchBarQuery = query;
-			this.searchResult();
-		},
-		onSearchReset(){
-			this.isSubmit = false;
-			this.items = [];
-		},
-		searchResult() {//일반함수 
-			PrdResult.list().then((result) => {
-				this.isSubmit = true;
-				this.items = result;
-			});
 		}
 	}
 }
