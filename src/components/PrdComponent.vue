@@ -8,7 +8,7 @@
 			<!-- v-bind: > :class=""대체가능 /v-on:click="" @:click -->
 		</div>
 		<div class="prd-wrap my-3">
-			<ul class="prds d-flex justify-content-between" v-if="isShow">
+			<ul class="prds d-flex justify-content-between flex-wrap" v-if="isShow">
 				<li class="prd mb-5" style="flex: 32% 0 0;" v-for="item in items" v-bind:key="item.id">
 					<div><img v-bind:src="item.src" class="w-100"></div>
 					<div class="f-125 py-2">{{item.title}}</div>
@@ -44,15 +44,23 @@ import PrdResult from '../models/PrdResult.js'
 			onTogglePrd(e){
 			this.isShow = !this.isShow;
 		},
-		prdSearch(){
-			//searchResult() {//일반함수(자체함수) 결과값을 불러옴.
+		async prdSearch(){
+			//promise를 async로 바꿔서 사용하는 것이 가독성및 정리가 편하다.
 			if(this.query != "") {
-				PrdResult.list(this.query).then((result) => {
+				let result = await	PrdResult.list(this.query)
 					this.isSubmit = true;
 					this.isShow = true,
-					this.items = result;
-				});
+					this.items = result.data;
 			}
+		// prdSearch(){
+		// 	//searchResult() {//일반함수(자체함수) 결과값을 불러옴.
+		// 	if(this.query != "") {
+		// 		PrdResult.list(this.query).then((result) => {
+		// 			this.isSubmit = true;
+		// 			this.isShow = true,
+		// 			this.items = result.data;
+		// 		});
+		// 	}
 			else{
 				this.isSubmit = false;
 				this.isShow = false;

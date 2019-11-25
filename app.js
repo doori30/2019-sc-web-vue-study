@@ -9,14 +9,15 @@ app.listen(3000, () => {
 const path = require("path");
 const fs = require("fs"); //filesystem← ↑
 const morgan = require("morgan");//(log폴더)
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser"); //bodyParser express가 통합됨.
 const methodOverride = require('method-override');//method를 덮어씌여서 인식시킴.
 
 /* Express 설정 */
 app.locals.pretty = true;
-app.use(bodyParser.json());//put,del을 인식하기 위함.
+//app.use(bodyParser.json());//put,del을 인식하기 위함.
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(bodyParser.urlencoded({extended : false}));
+app.use(express.json());//설정함.
+app.use(express.urlencoded({extended: false}));
 
 /* method-override 설정  */
 app.use(methodOverride('X-HTTP-Method')) //Microsoft
